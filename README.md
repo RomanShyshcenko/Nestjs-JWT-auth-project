@@ -11,8 +11,11 @@ It's basic nestjs auth app that I make for basic understanding of how to create 
 Lets run our app with docker compose.
 ```bash
 # Clone project from github.
-git clone https://github.com/RomanShyshcenko/Nestjs-JWT-auth-project.git
- 
+$ git clone https://github.com/RomanShyshcenko/Nestjs-JWT-auth-project.git
+
+# Move to the directory with docker-compose.yml
+$ cd ./Nestjs-JWT-auth-project
+
 # Start app
 $ docker compose up -d
 
