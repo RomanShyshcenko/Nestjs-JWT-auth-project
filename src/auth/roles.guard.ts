@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {JwtService} from "@nestjs/jwt";
 import {ROLES_KEY} from "./roles-auth.decorator";
 import {Reflector} from "@nestjs/core";
+import useRealTimers = jest.useRealTimers;
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -14,6 +15,7 @@ export class RolesGuard implements CanActivate {
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const request = context.switchToHttp().getRequest();
         try {
+
             const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
                 context.getHandler(),
                 context.getClass()
@@ -22,9 +24,13 @@ export class RolesGuard implements CanActivate {
             if (!requiredRoles) return true
 
             const authHeader = request.headers.authorization;
-            const bearer = authHeader.split(' ')[0];
-            const accessToken = authHeader.split(' ')[1];
+            let bearer: string
+            let accessToken: string
 
+            if (authHeader){
+                bearer = authHeader.split(' ')[0];
+                accessToken = authHeader.split(' ')[1];
+            }
             if (!accessToken || bearer !== 'Bearer') {
                 throw new UnauthorizedException('Unauthorized');
             }

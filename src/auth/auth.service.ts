@@ -1,4 +1,4 @@
-import {Body, HttpException, HttpStatus, Injectable, Post, UnauthorizedException} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable, UnauthorizedException} from '@nestjs/common';
 import {CreateUserDTO} from "../user/dto/create-user.dto";
 import {UserService} from "../user/user.service";
 import {JwtService} from "@nestjs/jwt";
@@ -38,6 +38,9 @@ export class AuthService {
 
     private async validateUser(dto: CreateUserDTO) {
         const user = await this.userService.getUserByEmail(dto.email);
+
+        if (!user) {throw new HttpException('User not found', HttpStatus.NOT_FOUND);}
+
         const passwordEquals = await bcrypt.compare(dto.password, user.password);
         if (user && passwordEquals) {
             return user;
