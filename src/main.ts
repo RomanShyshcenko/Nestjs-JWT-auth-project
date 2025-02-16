@@ -9,8 +9,8 @@ async function start() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-      .setTitle('First test app to portfolio')
-      .setDescription('Documentation for first test app')
+      .setTitle('First Nestjs app to portfolio')
+      .setDescription('Documentation')
       .setVersion('1.0')
       .build();
   const document = SwaggerModule.createDocument(app, config);
