@@ -14,17 +14,10 @@ import {UpdateUserDTO} from "./dto/update-user.dto";
 @ApiTags("Users")
 @Controller('user')
 export class UserController {
-    constructor(private userService: UserService) {
-    }
-    @ApiOperation({summary: "Create new user"})
-    @ApiResponse({status: 201, type: User,description: 'Successfully created user'})
-    @Post()
-    async create(@Body() user: CreateUserDTO): Promise<User> {
-        return this.userService.CreateUser(user);
-    }
+    constructor(private userService: UserService) {}
 
-    @ApiOperation({summary: "Update the user"})
-    @ApiResponse({status: 200, type: User,description: 'Successfully update the user'})
+    @ApiOperation({summary: "Update the user", description: "Available only to authenticated users"})
+    @ApiResponse({status: 200, type: User, description: 'Successfully update the user'})
     @UseGuards(JWTAuthGuard)
     @Put('/update')
     async update(@Req() req: Request, @Body() user: UpdateUserDTO): Promise<User> {
@@ -36,7 +29,7 @@ export class UserController {
         return this.userService.updateUser(userId, user);
     }
 
-    @ApiOperation({summary: "Get all users"})
+    @ApiOperation({summary: "Get all users", description: "Available only to user with ADMIN role"})
     @ApiResponse({status: 200, type: [User]})
     @UseGuards(RolesGuard)
     @Roles('ADMIN')
@@ -45,7 +38,7 @@ export class UserController {
         return this.userService.findAll()
     }
 
-    @ApiOperation({summary: "Give role to the user"})
+    @ApiOperation({summary: "Give role to the user", description: "Available only to user with ADMIN role"})
     @ApiResponse({status: 200, type: User})
     @UseGuards(RolesGuard)
     @Roles('ADMIN')
@@ -54,7 +47,7 @@ export class UserController {
         return this.userService.addRole(dto)
     }
 
-    @ApiOperation({summary: "Ban the user"})
+    @ApiOperation({summary: "Ban the user", description: "Available only to user with ADMIN role"})
     @ApiResponse({status: 200, type: User})
     @UseGuards(RolesGuard)
     @Roles('ADMIN')

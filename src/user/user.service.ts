@@ -3,10 +3,8 @@ import {CreateUserDTO} from "./dto/create-user.dto";
 import {User} from "./user.model";
 import {InjectModel} from "@nestjs/sequelize";
 import {RolesService} from "../roles/roles.service";
-import {Role} from "../roles/roles.model";
 import {AddRoleDto} from "./dto/add-role.dto";
 import {BanUserDto} from "./dto/ban-user.dto";
-import {where} from "sequelize";
 import {UpdateUserDTO} from "./dto/update-user.dto";
 
 @Injectable()
